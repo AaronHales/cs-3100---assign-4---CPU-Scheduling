@@ -13,7 +13,7 @@ public class SchedulerSJF implements Scheduler {
         // saves the reference to platform to use later
         this.platform = platform;
         // creates the queue
-        queue = new PriorityQueue<>(1, new CompareProcess());
+        queue = new PriorityQueue<>(1, new CompareShortestJob());
     }
 
     /**
@@ -104,7 +104,7 @@ public class SchedulerSJF implements Scheduler {
 /**
  * @author Aaron Hales
  */
-class CompareProcess implements Comparator<Process> {
+class CompareShortestJob implements Comparator<Process> {
 
     /**
      * set the order of the queue to have the shortest process first
@@ -113,7 +113,7 @@ class CompareProcess implements Comparator<Process> {
      * @return the comparison
      */
     public int compare(Process p1, Process p2) {
-        int a = Integer.compare(p2.getTotalTime(), p1.getTotalTime());
+        int a = Integer.compare(p1.getTotalTime(), p2.getTotalTime());
         int c = Integer.compare(p1.getBurstTime(), p2.getBurstTime());
         int b = Integer.compare(p1.getRemainingBurst(), p2.getRemainingBurst());
         if(a == 0 && b ==0){
