@@ -113,9 +113,9 @@ class CompareProcess implements Comparator<Process> {
      * @return the comparison
      */
     public int compare(Process p1, Process p2) {
-        int a = Integer.compare(p1.getBurstTime(), p2.getBurstTime());
+        int a = Integer.compare(p2.getTotalTime(), p1.getTotalTime());
+        int c = Integer.compare(p1.getBurstTime(), p2.getBurstTime());
         int b = Integer.compare(p1.getRemainingBurst(), p2.getRemainingBurst());
-        int c = Integer.compare(p2.getTotalTime(), p1.getTotalTime());
         if(a == 0 && b ==0){
             return c;
         }
