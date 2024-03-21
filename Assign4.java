@@ -10,19 +10,19 @@ public class Assign4 {
         System.out.println();
 
         System.out.println("---------------------------------------------------------");
-        demoSJF();
+//        demoSJF();
         System.out.println();
 
         System.out.println("---------------------------------------------------------");
-        demoSRTF();
+//        demoSRTF();
         System.out.println();
 
         System.out.println("---------------------------------------------------------");
-        demoPriority();
+//        demoPriority();
         System.out.println();
 
         System.out.println("---------------------------------------------------------");
-        demoRR();
+//        demoRR();
         System.out.println();
     }
 
