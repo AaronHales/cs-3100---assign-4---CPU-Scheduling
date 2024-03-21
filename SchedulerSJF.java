@@ -37,48 +37,55 @@ public class SchedulerSJF implements Scheduler {
     public void notifyNewProcess(Process p) {
         // puts task in ready state;
         queue.add(p);
-        contextSwitches++;
-//        for (Process process : queue) {
-//            System.out.println(process.getName());
-//        }
-//        System.out.printf("size: %s\n\n", queue.size());
     }
 
     /**
      * Update the scheduling algorithm for a single CPU.
      *
-     * @param cpu
+     * @param cpu the process to run
      * @return Reference to the process that is executing on the CPU; result might be null
      * if no process available for scheduling.
      */
     @Override
     public Process update(Process cpu) {
+        // if the queue is empty and cpu is null return null
         if (isQueueEmpty() && cpu == null) {
             return null;
         }
+        // if cpu exists
         else if (cpu != null) {
+            // if the process is either done with burst or completed
             if (cpu.isBurstComplete() || cpu.isExecutionComplete()) {
+                // if the process burst is done but not completed
                 if (cpu.isBurstComplete() && !cpu.isExecutionComplete()) {
+                    // add the process back to back of queue
                     contextSwitches++;
                     queue.add(cpu);
                 }
+                // say that the process burst is done
                 platform.log(String.format("%s burst completed", cpu.getName()));
+                // if the process is completed
                 if (cpu.isExecutionComplete()) {
                     platform.log(String.format("%s execution completed", cpu.getName()));
+                    contextSwitches++;
                 }
                 contextSwitches++;
+                // if the queue is not empty but cpu is null
                 if (!isQueueEmpty()) {
+                    // say which process is scheduled
                     platform.log(String.format("Scheduled: %s", queue.peek().getName()));
                 }
+                // get the next process
                 return queue.poll();
             }
+            // if the process is still needing to run return that process
             else if (cpu.getRemainingBurst() > 0) {
                 return cpu;
             }
         }
+        // if cpu is null get the next process
         else if (cpu == null) {
             platform.log(String.format("Scheduled: %s", queue.peek().getName()));
-            contextSwitches++;
             return queue.poll();
         }
         return null;
@@ -92,15 +99,19 @@ public class SchedulerSJF implements Scheduler {
     private boolean isQueueEmpty() {
         return queue.isEmpty();
     }
-
-    private void shuffleQueue() {
-
-    }
-
 }
 
+/**
+ * @author Aaron Hales
+ */
 class CompareProcess implements Comparator<Process> {
 
+    /**
+     * set the order of the queue to have the shortest process first
+     * @param p1 the first object to be compared.
+     * @param p2 the second object to be compared.
+     * @return the comparison
+     */
     public int compare(Process p1, Process p2) {
         int a = Integer.compare(p1.getRemainingBurst(), p2.getRemainingBurst());
         int b = Integer.compare(p1.getBurstTime(), p2.getBurstTime());
