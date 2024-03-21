@@ -41,10 +41,9 @@ public class SchedulerFCFS implements Scheduler {
      */
     @Override
     public void notifyNewProcess(Process p) {
+        // puts task in ready state;
         queue.add(p);
-        // puts task in ready sate;
         contextSwitches++;
-        System.out.printf("Process: %s was added to queue\n", p.getName());
     }
 
     /**
