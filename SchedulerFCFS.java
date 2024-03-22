@@ -60,12 +60,12 @@ public class SchedulerFCFS implements Scheduler {
         if (cpu != null) {
             // if the process is done
             if (cpu.isExecutionComplete()) {
-                platform.log(String.format("%s burst complete", cpu.getName()));
-                platform.log(String.format("%s execution complete", cpu.getName()));
+                platform.log(String.format("Process %s burst complete", cpu.getName()));
+                platform.log(String.format("Process %s execution complete", cpu.getName()));
             }
             // if the process's burst is done
             else if (cpu.isBurstComplete()) {
-                platform.log(String.format("%s burst complete", cpu.getName()));
+                platform.log(String.format("Process %s burst complete", cpu.getName()));
                 // re-add the process to the end of the queue
                 queue.add(cpu);
                 // increase the number of context switches
