@@ -121,7 +121,7 @@ public class SchedulerSJF implements Scheduler {
 class CompareShortestJob implements Comparator<Process> {
 
     /**
-     * set the order of the queue to have the shortest process first
+     * set the order of the queue to have the shortest burst process first
      * @param p1 the first object to be compared.
      * @param p2 the second object to be compared.
      * @return the comparison

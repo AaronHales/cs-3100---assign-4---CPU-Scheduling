@@ -121,7 +121,7 @@ public class SchedulerSRTF implements Scheduler {
 class CompareShortestR implements Comparator<Process> {
 
     /**
-     * set the order of the queue to have the shortest process first
+     * set the order of the queue to have the shortest burst remaining process first
      * @param p1 the first object to be compared.
      * @param p2 the second object to be compared.
      * @return the comparison
