@@ -128,14 +128,6 @@ class CompareShortestJob implements Comparator<Process> {
      */
     public int compare(Process p1, Process p2) {
         int a = Integer.compare(p1.getBurstTime(), p2.getBurstTime());
-        int b = Integer.compare(p1.getRemainingBurst(), p2.getRemainingBurst());
-        int c = Integer.compare(p1.getTotalTime(), p2.getTotalTime());
-        if(a == 0 && b ==0){
-            return c;
-        }
-        else if (a==0 && b!=0){
-            return b;
-        }
         return a;
 
     }
