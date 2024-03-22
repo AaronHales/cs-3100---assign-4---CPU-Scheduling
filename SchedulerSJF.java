@@ -48,25 +48,44 @@ public class SchedulerSJF implements Scheduler {
      */
     @Override
     public Process update(Process cpu) {
+        // if cpu is null get the next process
+        if (cpu == null) {
+            platform.log(String.format("Scheduled: %s", queue.peek().getName()));
+            return queue.poll();
+        }
+        // puts cpu in the queue
+        queue.add(cpu);
+        // get the first from the queue
+        Process first = queue.poll();
+        // checks to see if the first in the queue is not the process recieved
+        if (cpu != first) {
+            // say that the process was removed
+            platform.log(String.format("Preemptively removed: %s", cpu.getName()));
+            // say current process scheduled
+            platform.log(String.format("Scheduled: %s", first.getName()));
+            // add 2 switches to total
+            contextSwitches++;
+            contextSwitches++;
+        }
         // if the queue is empty and cpu is null return null
-        if (isQueueEmpty() && cpu == null) {
+        if (isQueueEmpty() && first == null) {
             return null;
         }
         // if cpu exists
-        else if (cpu != null) {
+        else if (first != null) {
             // if the process is either done with burst or completed
-            if (cpu.isBurstComplete() || cpu.isExecutionComplete()) {
+            if (first.isBurstComplete() || first.isExecutionComplete()) {
                 // if the process burst is done but not completed
-                if (cpu.isBurstComplete() && !cpu.isExecutionComplete()) {
+                if (first.isBurstComplete() && !first.isExecutionComplete()) {
                     // add the process back to back of queue
                     contextSwitches++;
-                    queue.add(cpu);
+                    queue.add(first);
                 }
                 // say that the process burst is done
-                platform.log(String.format("%s burst completed", cpu.getName()));
+                platform.log(String.format("%s burst completed", first.getName()));
                 // if the process is completed
-                if (cpu.isExecutionComplete()) {
-                    platform.log(String.format("%s execution completed", cpu.getName()));
+                if (first.isExecutionComplete()) {
+                    platform.log(String.format("%s execution completed", first.getName()));
                     contextSwitches++;
                 }
                 contextSwitches++;
@@ -79,14 +98,9 @@ public class SchedulerSJF implements Scheduler {
                 return queue.poll();
             }
             // if the process is still needing to run return that process
-            else if (cpu.getRemainingBurst() > 0) {
-                return cpu;
+            else if (first.getRemainingBurst() > 0) {
+                return first;
             }
-        }
-        // if cpu is null get the next process
-        else if (cpu == null) {
-            platform.log(String.format("Scheduled: %s", queue.peek().getName()));
-            return queue.poll();
         }
         return null;
     }
