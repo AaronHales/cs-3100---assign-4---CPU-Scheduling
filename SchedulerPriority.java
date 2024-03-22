@@ -82,10 +82,10 @@ public class SchedulerPriority implements Scheduler {
                     queue.add(first);
                 }
                 // say that the process burst is done
-                platform.log(String.format("%s burst completed", first.getName()));
+                platform.log(String.format("Process %s burst completed", first.getName()));
                 // if the process is completed
                 if (first.isExecutionComplete()) {
-                    platform.log(String.format("%s execution completed", first.getName()));
+                    platform.log(String.format("Process %s execution completed", first.getName()));
                     contextSwitches++;
                 }
                 contextSwitches++;
