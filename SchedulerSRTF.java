@@ -38,10 +38,6 @@ public class SchedulerSRTF implements Scheduler {
     public void notifyNewProcess(Process p) {
         // puts task in ready state;
         queue.add(p);
-//        for (Process proc : queue) {
-//            System.out.printf("Name: %s, burstTime: %d, burstRemain: %d, total: %d, start: %d\n",proc.getName(), proc.getBurstTime(), proc.getRemainingBurst(), proc.getTotalTime(), proc.getStartTime());
-//        }
-//        System.out.printf("size: %s\n", queue.size());
     }
 
     /**
